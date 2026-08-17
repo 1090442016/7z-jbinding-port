@@ -23,7 +23,7 @@ Key changes:
 - `SplitSevenZOutStream` (IOutStream) for `.7z.001` split volumes
 - LZMA2 thread-count cap by available RAM (no OOM)
 
-Repo: https://github.com/1090442016/7z-jbinding-port  (LGPL-2.1, minimal reusable patch set)
+Repo: https://github.com/1090442016/lzma-sdk-26.02-android-jbinding  (LGPL-2.1, minimal reusable patch set)
 
 ---
 
@@ -31,4 +31,4 @@ Repo: https://github.com/1090442016/7z-jbinding-port  (LGPL-2.1, minimal reusabl
 
 Porting official LZMA SDK 26.02 to 7-Zip-JBinding for Android: now you can create encrypted/split
 7z archives via the official engine, ~4-5x faster than commons-compress. Repo:
-https://github.com/1090442016/7z-jbinding-port
+https://github.com/1090442016/lzma-sdk-26.02-android-jbinding
