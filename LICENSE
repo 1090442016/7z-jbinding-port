@@ -1,0 +1,12 @@
+7-Zip-JBinding × LZMA SDK 26.02 Port —— License
+
+The code in this repository (compat header, DirectByteBuffer fix patch, SplitSevenZOutStream,
+compression engine) is based on the 7-Zip-JBinding upstream and is licensed under the GNU Lesser
+General Public License v2.1 or later (LGPL-2.1+).
+
+Full license text:
+  https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+
+The LZMA SDK 26.02 itself is in the public domain (Igor Pavlov) and is not bound by this license.
+
+SPDX-License-Identifier: LGPL-2.1-or-later

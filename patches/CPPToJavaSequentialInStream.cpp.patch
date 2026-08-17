@@ -1,0 +1,64 @@
+# DirectByteBuffer fix patch —— jbinding-cpp/CPPToJava/CPPToJavaSequentialInStream.cpp
+#
+# Problem: the original Read() used NewByteArray + GetByteArrayElements + DeleteLocalRef to allocate a
+#          jbyteArray per read. During compression the dense LZMA2 small-block read loop overflows the
+#          JNI local reference table and crashes with SEGV_ACCERR.
+# Fix: wrap the native write buffer with NewDirectByteBuffer(data, size); Java reads straight in — zero
+#      array, zero copy, zero local references.
+#
+# How to apply: replace the Read() body in the original file with the "AFTER" version below.
+
+============ BEFORE (original excerpt) ============
+STDMETHODIMP CPPToJavaSequentialInStream::Read(void *data, UInt32 size, UInt32 *processedSize) {
+    // ...
+    jbyteArray array = jniEnvInstance->NewByteArray(size);
+    if (array == nullptr) { /* OOM */ }
+    jint wasRead = _iSequentialInStream->read(jniEnvInstance, _javaImplementation, array, size);
+    if (wasRead > 0) {
+        jbyte *bytes = jniEnvInstance->GetByteArrayElements(array, nullptr);
+        memcpy(data, bytes, wasRead);
+        jniEnvInstance->ReleaseByteArrayElements(array, bytes, JNI_ABORT);
+    }
+    jniEnvInstance->DeleteLocalRef(array);
+    // ...
+}
+
+============ AFTER (fixed) ============
+STDMETHODIMP CPPToJavaSequentialInStream::Read(void *data, UInt32 size, UInt32 *processedSize) {
+    if (data == nullptr || size == 0) {
+        if (processedSize) *processedSize = 0;
+        return S_OK;
+    }
+
+    // Key fix: wrap the native write buffer with a DirectByteBuffer to avoid allocating a jbyteArray
+    // per read (the LZMA2 small-block loop during compression would overflow the JNI local ref table).
+    jobject buffer = jniEnvInstance->NewDirectByteBuffer(data, size);
+    if (buffer == nullptr) {
+        // Rare devices without DirectByteBuffer support: fall back to a heap array (only this path
+        // keeps a local reference).
+        jbyteArray array = jniEnvInstance->NewByteArray((jsize) size);
+        if (array == nullptr) {
+            if (processedSize) *processedSize = 0;
+            return E_OUTOFMEMORY;
+        }
+        jint wasRead = _iSequentialInStream->read(jniEnvInstance, _javaImplementation, array, size);
+        if (wasRead < 0) wasRead = 0;
+        if (wasRead > 0) {
+            jbyte *bytes = jniEnvInstance->GetByteArrayElements(array, nullptr);
+            memcpy(data, bytes, (size_t) wasRead);
+            jniEnvInstance->ReleaseByteArrayElements(array, bytes, JNI_ABORT);
+        }
+        jniEnvInstance->DeleteLocalRef(array);
+        if (processedSize) *processedSize = (UInt32) wasRead;
+        return S_OK;
+    }
+
+    jint wasRead = _iSequentialInStream->read(jniEnvInstance, _javaImplementation, buffer, (jint) size);
+    if (wasRead < 0) wasRead = 0;
+    if (wasRead > 0) {
+        // Java side read(ByteBuffer,int) already wrote into [data, data+wasRead); no native memcpy needed.
+    }
+    // DirectByteBuffer needs no DeleteLocalRef (it is not a local reference).
+    if (processedSize) *processedSize = (UInt32) wasRead;
+    return S_OK;
+}

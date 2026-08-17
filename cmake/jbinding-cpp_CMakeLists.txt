@@ -1,0 +1,83 @@
+# jbinding-cpp/CMakeLists.txt —— key 26.02 configuration snippets
+#
+# Differences from 16.02:
+#   1. P7ZIP_SRC points to the 7-Zip official C++ SDK 26.02 CPP/ directory (not the p7zip branch)
+#   2. include_directories adds CPP/myWindows, CPP/include_windows, etc. (26.02 paths)
+#   3. Compiler flags -DUNICODE -D_UNICODE -DENV_UNIX -DUNIX_USE_WIN_FILE (non-MinGW platforms)
+#   4. Linking: non-MinGW platforms TARGET_LINK_LIBRARIES(7-Zip-JBinding dl c pthread)
+#
+# Key variables and rules below (not a complete file; adjust paths to your jbinding-cpp repo):
+
+# ── Source root (26.02 official SDK) ──
+set(P7ZIP_SRC ${CMAKE_CURRENT_SOURCE_DIR}/../../lzmasdk/CPP)
+set(MY_WINDOWS ${P7ZIP_SRC}/myWindows)
+set(JBINDING_CPP ${CMAKE_CURRENT_SOURCE_DIR})
+set(JBINDING_JAVA ${CMAKE_CURRENT_SOURCE_DIR}/../../java)
+
+include_directories(
+    ${P7ZIP_SRC}
+    ${P7ZIP_SRC}/include_windows
+    ${MY_WINDOWS}
+    ${P7ZIP_SRC}/Common
+    ${P7ZIP_SRC}/Windows
+    ${P7ZIP_SRC}/7zip/Archive
+    ${P7ZIP_SRC}/7zip/Common
+    ${P7ZIP_SRC}/7zip/Compress
+    ${P7ZIP_SRC}/7zip/Crypto
+    ${P7ZIP_SRC}/7zip/UI/Common
+    ${JBINDING_CPP}
+    ${JBINDING_CPP}/JavaToCPP
+    ${JBINDING_CPP}/CPPToJava
+    ${JBINDING_JAVA}      # generated net_sf_sevenzipjbinding_*.h goes here
+)
+
+# ── Compiler options (non-MinGW / Unix platforms) ──
+if(NOT MINGW)
+    add_definitions(
+        -DUNICODE
+        -D_UNICODE
+        -DENV_UNIX
+        -DUNIX_USE_WIN_FILE
+        -D_FILE_OFFSET_BITS=64
+    )
+endif()
+
+# ── JNI header generation (javah, once) ──
+# In build.gradle, use add_custom_command to run javah on net.sf.sevenzipjbinding.* and emit *.h
+# into ${JBINDING_JAVA} for jbinding-cpp to include.
+
+# ── Core source files (excerpt; use the full SEVEN_ZIP_SOURCE_FILES list in practice) ──
+set(JBINDING_CPP_FILES
+    ${JBINDING_CPP}/JavaToCPP/JavaToCPPInArchive.cpp
+    ${JBINDING_CPP}/JavaToCPP/JavaToCPPOutArchive.cpp
+    ${JBINDING_CPP}/JavaToCPP/JavaToCPPInStream.cpp
+    ${JBINDING_CPP}/JavaToCPP/JavaToCPPOutStream.cpp
+    ${JBINDING_CPP}/JavaToCPP/JavaToCPPArchiveUpdateCallback.cpp
+    ${JBINDING_CPP}/JavaToCPP/JavaToCPPArchiveExtractCallback.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaInArchive.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaOutArchive.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaSequentialInStream.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaSequentialOutStream.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaArchiveUpdateCallback.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaArchiveExtractCallback.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaArchiveOpenVolumeCallback.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaArchiveOpenSequentialStream.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaInStream.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaOutStream.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaCryptoGetTextPassword.cpp
+    ${JBINDING_CPP}/CPPToJava/CPPToJavaCommon.cpp
+)
+
+add_library(7-Zip-JBinding SHARED ${JBINDING_CPP_FILES} ${SEVEN_ZIP_SOURCE_FILES})
+target_link_libraries(7-Zip-JBinding log)
+
+if(NOT MINGW)
+    target_link_libraries(7-Zip-JBinding dl c pthread)
+endif()
+
+# ── 26.02 source path change reminders ──
+#   - Windows/Defs.h                  → Common/Defs.h
+#   - Windows/Error.h                 → removed (use myWindows/errno compatibility)
+#   - LZMA_Alone/                     → whole directory gone (no longer compiled separately)
+#   - Windows/ErrorMsg.cpp / PropVar.cpp → paths adjusted with 26.02; sync in SEVEN_ZIP_SOURCE_FILES
+#   - 7z compression: 7zip/Archive/7z/7zOut.cpp, 7zUpdate.cpp, 7zHandlerOut.cpp remain core
