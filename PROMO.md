@@ -6,7 +6,7 @@ Copy-paste to Reddit (r/androiddev / r/Android), XDA, Coolapk, or Twitter/X.
 
 ## English (Reddit / XDA / Twitter)
 
-**Title: First working 7-Zip-JBinding port on LZMA SDK 26.02 for Android**
+**Title: Stop using commons-compress for 7z on Android — it freezes for 9 seconds per write. Here's the fix.**
 
 I ported the official 7-Zip C++ SDK 26.02 into 7-Zip-JBinding's JNI bridge so Android can finally
 *create* 7z archives (plain / AES256-encrypted / split volumes / encrypted+split) through the official
@@ -29,7 +29,7 @@ Repo: https://github.com/1090442016/7z-jbinding-port  (LGPL-2.1, minimal reusabl
 
 ## 中文（酷安 / V2EX / 少数派）
 
-**标题：7-Zip-JBinding 接入官方 LZMA SDK 26.02 的 Android 移植，终于能在 Android 上正常压缩 7z 了**
+**标题：安卓上压缩 7z 动不动卡 9 秒还崩？我把官方 LZMA 26.02 塞进 JBinding 治好了**
 
 把官方 7-Zip C++ SDK 26.02 移植进了 7-Zip-JBinding 的 JNI 桥接层，让 Android 可以通过官方引擎
 *创建* 7z 归档（普通 / AES256 加密 / 分卷 / 加密+分卷），不再依赖 commons-compress。
@@ -50,6 +50,4 @@ Repo: https://github.com/1090442016/7z-jbinding-port  (LGPL-2.1, minimal reusabl
 
 ## One-line tweet
 
-Just ported official 7-Zip LZMA SDK 26.02 into 7-Zip-JBinding for Android — now you can *create*
-encrypted/split 7z archives, 4-5x faster than commons-compress. Minimal patch set, LGPL-2.1:
-https://github.com/1090442016/7z-jbinding-port
+Your Android 7z compression is probably broken (9s freezes + random crashes). Fixed it with the official LZMA 26.02 engine — now you can *create* encrypted/split 7z archives, 4–5× faster than commons-compress. Minimal patch set, LGPL-2.1: https://github.com/1090442016/7z-jbinding-port
