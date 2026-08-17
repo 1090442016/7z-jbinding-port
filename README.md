@@ -2,6 +2,8 @@
 
 > The first usable JBinding port that can **create (compress) 7z split / encrypted archives** correctly on Android.
 
+**Release:** https://github.com/1090442016/7z-jbinding-port/releases/tag/v1.0.0
+
 `sevenzipjbinding` (JBinding) is the Java/JNI bridge for the official 7-Zip C++ SDK, which originally only
 supported **reading** archives. The official SDK stayed on the p7zip 16.02 branch for years, while the upstream
 7-Zip C++ SDK has evolved to **26.02** (higher compression ratio, faster, many CVE fixes). This repo wires
