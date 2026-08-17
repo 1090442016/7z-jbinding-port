@@ -1,0 +1,64 @@
+// Minimal Android library module that builds lib7-Zip-JBinding.so from the
+// official LZMA SDK 26.02 + 7-Zip-JBinding C++ bridge.
+//
+// Usage:
+//   ./gradlew assembleRelease
+// Output: sevenzip/build/intermediates/.../lib/arm64-v8a/lib7-Zip-JBinding.so
+//         sevenzip/build/intermediates/.../lib/armeabi-v7a/lib7-Zip-JBinding.so
+//
+// Then copy the .so files into your app's src/main/jniLibs/<abi>/.
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:8.5.0"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: "com.android.library"
+
+android {
+    namespace "net.sf.sevenzipjbinding"
+    compileSdk 34
+
+    ndkVersion "26.3.11579264"
+
+    defaultConfig {
+        minSdk 21
+        // Only the two ABIs most Android devices use. Add "x86_64" for emulators if needed.
+        externalNativeBuild {
+            cmake {
+                abiFilters "arm64-v8a", "armeabi-v7a"
+                arguments "-DANDROID_STL=c++_static"
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "cpp/CMakeLists.txt"
+            version "3.22.1+"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // NDK strips the .so automatically in release builds.
+        }
+    }
+}
+
+// The JBinding Java classes live under java/net/sf/sevenzipjbinding and are
+// needed by the Kotlin side. They are plain .java, no compilation tweaks required.
+android.sourceSets.main.java.srcDirs = ["java"]

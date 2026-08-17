@@ -1,0 +1,3 @@
+D:/killion/KiilionFiles/7z-jbinding-port/native/sevenzip/cpp/build_test/CMakeFiles/sevenzip-jni.dir
+D:/killion/KiilionFiles/7z-jbinding-port/native/sevenzip/cpp/build_test/CMakeFiles/edit_cache.dir
+D:/killion/KiilionFiles/7z-jbinding-port/native/sevenzip/cpp/build_test/CMakeFiles/rebuild_cache.dir

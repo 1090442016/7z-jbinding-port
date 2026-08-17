@@ -1,0 +1,139 @@
+[versions]
+agp = "9.3.1"
+junit = "4.13.2"
+kotlin = "2.4.0"
+coreKtx = "1.19.0"
+junitVersion = "1.3.0"
+espressoCore = "3.7.0"
+splashscreen = "1.2.0"
+documentfile = "1.1.0"
+navigationCompose = "2.9.8"
+navigation3Version = "1.1.5"
+hiltNavigationCompose = "1.4.0"
+lifecycleRuntimeKtx = "2.11.0"
+commonsCompress = "1.28.0"
+xz = "1.10"
+activityCompose = "1.13.0"
+composeBom = "2026.06.01"
+engageCore = "1.6.0"
+commonsNet = "3.13.0"
+
+zip4j = "2.11.6"
+sshj = "0.40.0"
+bouncyCastle = "1.83"
+hilt = "2.60.1"
+google-tink = "1.18.0"
+
+ksp = "2.3.6"
+room = "2.8.4"
+sardineAndroid = "0.9"
+smbj = "0.14.0"
+dcerpc = "0.12.13"
+guava = "33.4.0-android"
+commonsIo = "2.16.1"
+commonsLang3 = "3.14.0"
+slf4jNop = "2.0.18"
+datastore = "1.2.1"
+protobuf = "4.35.1"
+kotlinxSerializationJson = "1.8.1"
+libsu = "6.0.0"
+media3 = "1.10.0"
+zoomable = "2.13.0"
+shizuku = "13.1.5"
+coil = "3.5.0"
+palette = "1.0.0"
+zoomableImageCoil3 = "0.19.0"
+apacheFtpserver = "1.2.1"
+minaCore = "2.1.3"
+
+
+
+
+
+
+
+
+[libraries]
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "navigation3Version" }
+androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "navigation3Version" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-viewmodel-navigation3 = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-navigation3", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+androidx-compose-animation-graphics = { group = "androidx.compose.animation", name = "animation-graphics" }
+androidx-compose-runtime-tracing = { group = "androidx.compose.runtime", name = "runtime-tracing" }
+engage-core = { group = "com.google.android.engage", name = "engage-core", version.ref = "engageCore" }
+
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+zip4j = { group = "net.lingala.zip4j", name = "zip4j", version.ref = "zip4j" }
+commons-compress = { group = "org.apache.commons", name = "commons-compress", version.ref = "commonsCompress" }
+xz = { group = "org.tukaani", name = "xz", version.ref = "xz" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
+commons-net = { group = "commons-net", name = "commons-net", version.ref = "commonsNet" }
+sshj = { group = "com.hierynomus", name = "sshj", version.ref = "sshj" }
+bcprov = { group = "org.bouncycastle", name = "bcprov-jdk15to18", version.ref = "bouncyCastle" }
+bcpkix = { group = "org.bouncycastle", name = "bcpkix-jdk15to18", version.ref = "bouncyCastle" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+sardine-android = { group = "com.github.thegrizzlylabs", name = "sardine-android", version.ref = "sardineAndroid" }
+smbj = { group = "com.hierynomus", name = "smbj", version.ref = "smbj" }
+dcerpc = { group = "com.rapid7.client", name = "dcerpc", version.ref = "dcerpc" }
+guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+commons-io = { group = "commons-io", name = "commons-io", version.ref = "commonsIo" }
+commons-lang3 = { group = "org.apache.commons", name = "commons-lang3", version.ref = "commonsLang3" }
+slf4j-nop = { group = "org.slf4j", name = "slf4j-nop", version.ref = "slf4jNop" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
+protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobuf" }
+
+libsu-core = { group = "com.github.topjohnwu.libsu", name = "core", version.ref = "libsu" }
+libsu-service = { group = "com.github.topjohnwu.libsu", name = "service", version.ref = "libsu" }
+shizuku-api = { group = "dev.rikka.shizuku", name = "api", version.ref = "shizuku" }
+shizuku-provider = { group = "dev.rikka.shizuku", name = "provider", version.ref = "shizuku" }
+coil = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
+coilCompose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+zoomable-image-coil3 = { module = "me.saket.telephoto:zoomable-image-coil3", version.ref = "zoomableImageCoil3" }
+media3-common = { group = "androidx.media3", name = "media3-common", version.ref = "media3" }
+media3-transformer = { group = "androidx.media3", name = "media3-transformer", version.ref = "media3" }
+media3-muxer = { group = "androidx.media3", name = "media3-muxer", version.ref = "media3" }
+media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3" }
+media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3" }
+zoomable = { group = "net.engawapg.lib", name = "zoomable", version.ref = "zoomable" }
+palette = { group = "androidx.palette", name = "palette", version.ref = "palette" }
+google-crypto-tink = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "google-tink" }
+apache-ftpserver-core = { group = "org.apache.ftpserver", name = "ftpserver-core", version.ref = "apacheFtpserver" }
+mina-core = { group = "org.apache.mina", name = "mina-core", version.ref = "minaCore" }
+
+
+
+
+
+
+
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+

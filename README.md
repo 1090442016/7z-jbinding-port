@@ -23,9 +23,35 @@ so that Android can now **create 7z (plain / encrypted / split / encrypted+split
 ├── archive-abstractions.md            # App-layer types that JBinding7zArchiveExplorer depends on
 ├── cmake/
 │   └── jbinding-cpp_CMakeLists.txt    # Key CMake snippets
-└── patches/
-    └── CPPToJavaSequentialInStream.cpp.patch  # DirectByteBuffer fix
+├── patches/
+│   └── CPPToJavaSequentialInStream.cpp.patch  # DirectByteBuffer fix
+├── prebuilt/                          # Prebuilt .so (drop-in, no build needed)
+│   ├── arm64-v8a/lib7-Zip-JBinding.so
+│   └── armeabi-v7a/lib7-Zip-JBinding.so
+└── native/                            # Standalone NDK project to build .so from source
+    ├── settings.gradle
+    ├── build.gradle / gradle.properties
+    ├── gradlew / gradlew.bat / gradle/
+    ├── sevenzip/build.gradle
+    ├── sevenzip/cpp/                  # lzmasdk/ + jbinding-cpp/ + CMakeLists.txt
+    └── sevenzip/java/net/sf/sevenzipjbinding/   # JBinding Java classes
 ```
+
+## Quick start (prebuilt, no build)
+
+1. Copy `prebuilt/arm64-v8a/lib7-Zip-JBinding.so` and `prebuilt/armeabi-v7a/lib7-Zip-JBinding.so`
+   into your app's `src/main/jniLibs/<abi>/`.
+2. Add the JBinding Java classes from `native/sevenzip/java/net/...` to your project.
+3. Use `SplitSevenZOutStream.kt` + `JBinding7zArchiveExplorer.kt` (repo root) to create 7z
+   (plain / AES256-encrypted / split volumes). See `prebuilt/README.md`.
+
+## Build from source
+
+```bash
+cd native && ./gradlew assembleRelease
+```
+
+See `native/README.md` for prerequisites and details.
 
 ## Why you need this
 

@@ -1,0 +1,15 @@
+# Build output
+native/**/build/
+native/sevenzip/build/
+native/**/.cxx/
+*.o
+*.obj
+*.so.tmp
+
+# Local SDK/NDK paths (do NOT commit real paths)
+native/local.properties
+
+# Gradle / IDE
+.gradle/
+*.iml
+.DS_Store
