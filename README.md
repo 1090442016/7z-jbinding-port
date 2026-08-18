@@ -53,6 +53,33 @@ cd native && ./gradlew assembleRelease
 
 See `native/README.md` for prerequisites and details.
 
+## Scope & known limitations
+
+This port adapts JBinding for the **7z creation (compression) direction**: plain / AES256-encrypted /
+split / encrypted+split archives. It does **not** put the extract path through JBinding — browse/extract
+stays on commons-compress `SevenZFile` (see `archive-abstractions.md`).
+
+Honest limitations that remain (they are JBinding/JNI architecture trade-offs, not engine bugs):
+
+1. **COM objects still cross the JNI boundary on the compression path.** `ISequentialInStream` /
+   `IOutStream` are exposed to Java. The DirectByteBuffer fix removes the per-read `jbyteArray` +
+   LocalRef storm, but COM lifetime (`AddRef`/`Release`) is still entangled with Java GC and the
+   engine's internal threads. The compression call model is a simple one-way push stream (no
+   extract-style callback loops), so the trigger probability is low — but it is not zero.
+2. **Split logic lives in Java (`SplitSevenZOutStream`).** The engine writes a full stream into Java,
+   which slices it into volumes. This is a performance trade-off for very large archives, not a
+   correctness/stability issue (single-direction flow, no back-and-forth callbacks).
+3. **No hard cancellation.** The 7z kernel's cancel callback is not wired up; cancellation is done at
+   the business-task layer. If the kernel is mid-block in heavy computation, it finishes the current
+   block before stopping — it is not an immediate interrupt.
+4. **Upgrading the LZMA SDK kernel stays expensive.** New 7-Zip versions change COM constants/interfaces;
+   both the kernel source and the JNI glue binding must be updated together.
+5. **Upstream `sevenzipjbinding` is unmaintained.** This is a private fork — no community backstop,
+   fixes are on us.
+
+If you need extract-heavy, pure-native performance (fd-based IO, no Java round-trips), this JBinding
+bridge is not the right foundation — consider a full native wrapper (the "tier-2" rewrite).
+
 ## Why you need this
 
 | Approach | Problem |
